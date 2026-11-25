@@ -1,0 +1,12 @@
+[
+  {
+    "id": "assessment_101",
+    "interviewId": "interview_101",
+    "applicationId": "application_101",
+    "interviewerId": "u-int-comms",
+    "score": 4,
+    "recommendation": "PASS",
+    "comments": "Giao tiếp tốt, hiểu rõ công việc của ban.",
+    "submittedAt": "2025-11-05T10:00:00+07:00"
+  }
+]

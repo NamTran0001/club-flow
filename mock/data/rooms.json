@@ -1,0 +1,17 @@
+[
+  {
+    "id": "room_a",
+    "name": "Phòng A",
+    "location": "Tầng 2 (Media Lab)"
+  },
+  {
+    "id": "room_b",
+    "name": "Phòng B",
+    "location": "Tầng 2 (Phòng họp)"
+  },
+  {
+    "id": "room_c",
+    "name": "Phòng C",
+    "location": "Tầng 3 (Phòng Kỹ thuật)"
+  }
+]

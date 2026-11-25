@@ -1,0 +1,120 @@
+{
+  "campaign_001": {
+    "campaignId": "campaign_001",
+    "date": "2026-11-05",
+    "startTime": "09:00",
+    "endTime": "12:00",
+    "slotDuration": 20,
+    "status": "DRAFT",
+    "entries": [
+      {
+        "id": "interview_001",
+        "applicationId": "application_001",
+        "applicationCode": "A01",
+        "applicantName": "Nguyễn Minh Anh",
+        "positionId": "position_001",
+        "positionName": "Content Creator",
+        "interviewer": { "id": "u-int-content", "fullName": "Phan Minh Đức" },
+        "room": { "id": "room_a", "name": "Phòng A" },
+        "startTime": "2026-11-05T09:00:00+07:00",
+        "endTime": "2026-11-05T09:20:00+07:00",
+        "status": "CONFLICT",
+        "reason": null,
+        "conflictWith": ["interview_002"],
+        "conflictReason": "Applicant Nguyễn Minh Anh also has interview_002 at the same time."
+      },
+      {
+        "id": "interview_002",
+        "applicationId": "application_002",
+        "applicationCode": "A02",
+        "applicantName": "Nguyễn Minh Anh",
+        "positionId": "position_002",
+        "positionName": "Communications Officer",
+        "interviewer": { "id": "u-int-comms", "fullName": "Trần Thanh Tùng" },
+        "room": { "id": "room_c", "name": "Phòng C" },
+        "startTime": "2026-11-05T09:00:00+07:00",
+        "endTime": "2026-11-05T09:20:00+07:00",
+        "status": "CONFLICT",
+        "reason": null,
+        "conflictWith": ["interview_001"],
+        "conflictReason": "Applicant Nguyễn Minh Anh also has interview_001 at the same time."
+      },
+      {
+        "id": "interview_003",
+        "applicationId": "application_003",
+        "applicationCode": "A03",
+        "applicantName": "Lê Thu Hà",
+        "positionId": "position_002",
+        "positionName": "Communications Officer",
+        "interviewer": { "id": "u-int-comms", "fullName": "Trần Thanh Tùng" },
+        "room": { "id": "room_b", "name": "Phòng B" },
+        "startTime": "2026-11-05T09:20:00+07:00",
+        "endTime": "2026-11-05T09:40:00+07:00",
+        "status": "PROPOSED",
+        "reason": null,
+        "conflictWith": [],
+        "conflictReason": null
+      },
+      {
+        "id": "interview_004",
+        "applicationId": "application_004",
+        "applicationCode": "A04",
+        "applicantName": "Phạm Quốc Bảo",
+        "positionId": "position_001",
+        "positionName": "Content Creator",
+        "interviewer": { "id": "u-int-content", "fullName": "Phan Minh Đức" },
+        "room": { "id": "room_a", "name": "Phòng A" },
+        "startTime": "2026-11-05T09:20:00+07:00",
+        "endTime": "2026-11-05T09:40:00+07:00",
+        "status": "PROPOSED",
+        "reason": null,
+        "conflictWith": [],
+        "conflictReason": null
+      },
+      {
+        "id": "interview_005",
+        "applicationId": "application_005",
+        "applicationCode": "A05",
+        "applicantName": "Đỗ Đức Thắng",
+        "positionId": "position_003",
+        "positionName": "Technical Member",
+        "interviewer": null,
+        "room": null,
+        "startTime": null,
+        "endTime": null,
+        "status": "UNASSIGNED",
+        "reason": "No common availability: the applicant is free 09:00–09:20 while Ngô Ngọc Yến is free 10:00–10:20.",
+        "conflictWith": [],
+        "conflictReason": null
+      }
+    ],
+    "summary": { "total": 5, "proposed": 2, "conflict": 2, "unassigned": 1 }
+  },
+  "campaign_002": {
+    "campaignId": "campaign_002",
+    "date": "2025-11-05",
+    "startTime": "09:00",
+    "endTime": "11:00",
+    "slotDuration": 20,
+    "status": "CONFIRMED",
+    "entries": [
+      {
+        "id": "interview_101",
+        "applicationId": "application_101",
+        "applicationCode": "A101",
+        "applicantName": "Lê Thu Hà",
+        "positionId": "position_101",
+        "positionName": "Content Creator",
+        "interviewer": { "id": "u-int-comms", "fullName": "Trần Thanh Tùng" },
+        "room": { "id": "room_a", "name": "Phòng A" },
+        "startTime": "2025-11-05T09:00:00+07:00",
+        "endTime": "2025-11-05T09:20:00+07:00",
+        "status": "CONFIRMED",
+        "reason": null,
+        "conflictWith": [],
+        "conflictReason": null
+      }
+    ],
+    "summary": { "total": 1, "proposed": 0, "conflict": 0, "unassigned": 0 }
+  }
+}

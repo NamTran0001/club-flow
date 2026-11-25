@@ -1,0 +1,69 @@
+{
+  "u-int-content": {
+    "id": "u-int-content",
+    "fullName": "Phan Minh Đức",
+    "email": "int-content@clubflow.test",
+    "role": "INTERVIEWER",
+    "assignedPositionIds": ["position_001"],
+    "availability": [
+      {
+        "id": "availability_001",
+        "interviewerId": "u-int-content",
+        "campaignId": "campaign_001",
+        "startTime": "2026-11-05T09:00:00+07:00",
+        "endTime": "2026-11-05T11:00:00+07:00",
+        "isAvailable": true
+      },
+      {
+        "id": "availability_002",
+        "interviewerId": "u-int-content",
+        "campaignId": "campaign_001",
+        "startTime": "2026-11-05T11:20:00+07:00",
+        "endTime": "2026-11-05T12:00:00+07:00",
+        "isAvailable": true
+      }
+    ]
+  },
+  "u-int-comms": {
+    "id": "u-int-comms",
+    "fullName": "Trần Thanh Tùng",
+    "email": "int-comms@clubflow.test",
+    "role": "INTERVIEWER",
+    "assignedPositionIds": ["position_002", "position_101"],
+    "availability": [
+      {
+        "id": "availability_011",
+        "interviewerId": "u-int-comms",
+        "campaignId": "campaign_001",
+        "startTime": "2026-11-05T09:00:00+07:00",
+        "endTime": "2026-11-05T11:00:00+07:00",
+        "isAvailable": true
+      },
+      {
+        "id": "availability_012",
+        "interviewerId": "u-int-comms",
+        "campaignId": "campaign_002",
+        "startTime": "2025-11-05T09:00:00+07:00",
+        "endTime": "2025-11-05T11:00:00+07:00",
+        "isAvailable": true
+      }
+    ]
+  },
+  "u-int-tech": {
+    "id": "u-int-tech",
+    "fullName": "Ngô Ngọc Yến",
+    "email": "int-tech@clubflow.test",
+    "role": "INTERVIEWER",
+    "assignedPositionIds": ["position_003"],
+    "availability": [
+      {
+        "id": "availability_021",
+        "interviewerId": "u-int-tech",
+        "campaignId": "campaign_001",
+        "startTime": "2026-11-05T10:00:00+07:00",
+        "endTime": "2026-11-05T10:20:00+07:00",
+        "isAvailable": true
+      }
+    ]
+  }
+}

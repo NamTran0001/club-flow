@@ -1,0 +1,64 @@
+[
+  {
+    "id": "campaign_001",
+    "name": "Tuyển thành viên CLB Công nghệ thông tin 2026",
+    "clubName": "CLB Công nghệ thông tin",
+    "description": "Tìm kiếm thành viên cho các ban Nội dung, Truyền thông và Kỹ thuật.",
+    "instructions": "Nộp CV PDF tối đa 5 MB, thư động lực tối đa 300 từ và chọn khung giờ phỏng vấn.",
+    "status": "OPEN",
+    "applicationStartDate": "2026-10-15T00:00:00+07:00",
+    "applicationEndDate": "2026-10-30T23:59:59+07:00",
+    "interviewDate": "2026-11-05",
+    "positions": [
+      {
+        "id": "position_001",
+        "campaignId": "campaign_001",
+        "name": "Content Creator",
+        "department": "Ban Nội dung",
+        "quota": 2,
+        "description": "Viết nội dung và kế hoạch truyền thông.",
+        "requirements": "Viết tiếng Việt rõ ràng."
+      },
+      {
+        "id": "position_002",
+        "campaignId": "campaign_001",
+        "name": "Communications Officer",
+        "department": "Ban Truyền thông",
+        "quota": 3,
+        "description": "Điều phối kênh truyền thông của câu lạc bộ.",
+        "requirements": "Có kinh nghiệm quản lý fanpage là lợi thế."
+      },
+      {
+        "id": "position_003",
+        "campaignId": "campaign_001",
+        "name": "Technical Member",
+        "department": "Ban Kỹ thuật",
+        "quota": 2,
+        "description": "Phát triển website quản lý hoạt động câu lạc bộ.",
+        "requirements": "Biết HTML/CSS cơ bản."
+      }
+    ]
+  },
+  {
+    "id": "campaign_002",
+    "name": "Tuyển thành viên CLB Công nghệ thông tin 2025",
+    "clubName": "CLB Công nghệ thông tin",
+    "description": "Chiến dịch tuyển thành viên năm 2025 đã kết thúc.",
+    "instructions": "Hồ sơ đã đóng.",
+    "status": "CONFIRMED",
+    "applicationStartDate": "2025-10-01T00:00:00+07:00",
+    "applicationEndDate": "2025-10-20T23:59:59+07:00",
+    "interviewDate": "2025-11-05",
+    "positions": [
+      {
+        "id": "position_101",
+        "campaignId": "campaign_002",
+        "name": "Content Creator",
+        "department": "Ban Nội dung",
+        "quota": 1,
+        "description": "Viết nội dung cho câu lạc bộ.",
+        "requirements": "Viết tốt."
+      }
+    ]
+  }
+]

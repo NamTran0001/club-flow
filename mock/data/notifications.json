@@ -1,0 +1,12 @@
+[
+  {
+    "id": "notification_101",
+    "type": "RESULT_PUBLISHED",
+    "title": "Kết quả tuyển thành viên",
+    "message": "Đơn A101 của bạn đã có kết quả: PASS.",
+    "applicationId": "application_101",
+    "createdAt": "2025-11-06T10:00:00+07:00",
+    "read": false,
+    "applicantId": "u-studentB"
+  }
+]

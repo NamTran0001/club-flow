@@ -1,0 +1,44 @@
+[
+  {
+    "id": "slot_001",
+    "campaignId": "campaign_001",
+    "startTime": "2026-11-05T09:00:00+07:00",
+    "endTime": "2026-11-05T09:20:00+07:00"
+  },
+  {
+    "id": "slot_002",
+    "campaignId": "campaign_001",
+    "startTime": "2026-11-05T09:20:00+07:00",
+    "endTime": "2026-11-05T09:40:00+07:00"
+  },
+  {
+    "id": "slot_003",
+    "campaignId": "campaign_001",
+    "startTime": "2026-11-05T09:40:00+07:00",
+    "endTime": "2026-11-05T10:00:00+07:00"
+  },
+  {
+    "id": "slot_004",
+    "campaignId": "campaign_001",
+    "startTime": "2026-11-05T10:00:00+07:00",
+    "endTime": "2026-11-05T10:20:00+07:00"
+  },
+  {
+    "id": "slot_005",
+    "campaignId": "campaign_001",
+    "startTime": "2026-11-05T10:20:00+07:00",
+    "endTime": "2026-11-05T10:40:00+07:00"
+  },
+  {
+    "id": "slot_006",
+    "campaignId": "campaign_001",
+    "startTime": "2026-11-05T10:40:00+07:00",
+    "endTime": "2026-11-05T11:00:00+07:00"
+  },
+  {
+    "id": "slot_101",
+    "campaignId": "campaign_002",
+    "startTime": "2025-11-05T09:00:00+07:00",
+    "endTime": "2025-11-05T09:20:00+07:00"
+  }
+]

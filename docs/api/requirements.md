@@ -388,9 +388,8 @@ The official brief identifies the following eight issues that must not appear in
 
 **Fix 2 – Wrong Page Title**
 
-Screen 2 must use:
-
-`Application Review`
+Screen 2 must use the application-review title, not the campaign-creation title.
+The implemented page uses `Duyệt hồ sơ ứng tuyển` (Application Review).
 
 Do not retain:
 

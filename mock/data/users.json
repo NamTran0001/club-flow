@@ -1,0 +1,81 @@
+{
+  "u-exec": {
+    "id": "u-exec",
+    "fullName": "Nguyễn Thu Hà",
+    "email": "exec@clubflow.test",
+    "password": "exec-demo",
+    "role": "EXECUTIVE"
+  },
+  "u-studentA": {
+    "id": "u-studentA",
+    "fullName": "Nguyễn Minh Anh",
+    "email": "studenta@clubflow.test",
+    "password": "studenta-demo",
+    "role": "APPLICANT",
+    "studentId": "24120101"
+  },
+  "u-studentB": {
+    "id": "u-studentB",
+    "fullName": "Lê Thu Hà",
+    "email": "studentb@clubflow.test",
+    "password": "studentb-demo",
+    "role": "APPLICANT",
+    "studentId": "24120103"
+  },
+  "u-studentC": {
+    "id": "u-studentC",
+    "fullName": "Phạm Quốc Bảo",
+    "email": "studentc@clubflow.test",
+    "role": "APPLICANT",
+    "studentId": "24120104"
+  },
+  "u-studentD": {
+    "id": "u-studentD",
+    "fullName": "Đỗ Đức Thắng",
+    "email": "studentd@clubflow.test",
+    "role": "APPLICANT",
+    "studentId": "24120105"
+  },
+  "u-studentE": {
+    "id": "u-studentE",
+    "fullName": "Võ Mai Linh",
+    "email": "studente@clubflow.test",
+    "role": "APPLICANT",
+    "studentId": "24120106"
+  },
+  "u-studentF": {
+    "id": "u-studentF",
+    "fullName": "Bùi Quang Huy",
+    "email": "studentf@clubflow.test",
+    "role": "APPLICANT",
+    "studentId": "24120107"
+  },
+  "u-studentG": {
+    "id": "u-studentG",
+    "fullName": "Nguyễn Hoàng Phương Thảo Như Quỳnh",
+    "email": "studentg@clubflow.test",
+    "role": "APPLICANT",
+    "studentId": "24120108"
+  },
+  "u-int-content": {
+    "id": "u-int-content",
+    "fullName": "Phan Minh Đức",
+    "email": "int-content@clubflow.test",
+    "password": "int-content-demo",
+    "role": "INTERVIEWER"
+  },
+  "u-int-comms": {
+    "id": "u-int-comms",
+    "fullName": "Trần Thanh Tùng",
+    "email": "int-comms@clubflow.test",
+    "password": "int-comms-demo",
+    "role": "INTERVIEWER"
+  },
+  "u-int-tech": {
+    "id": "u-int-tech",
+    "fullName": "Ngô Ngọc Yến",
+    "email": "int-tech@clubflow.test",
+    "password": "int-tech-demo",
+    "role": "INTERVIEWER"
+  }
+}
