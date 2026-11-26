@@ -2,31 +2,16 @@
 
 ## 1. Overview
 
-Interviewer directory, position assignments and availability. Interviewers are
-pre-created users with the `INTERVIEWER` role; a department is not a role.
+Interviewer profile lookup, position assignments, availability management (Step C4), and assigned confirmed interviews for Interviewers (Step C10).
 
 Base path: `/api`.
 
-### Interviewer object
+### Rules
+1. Interviewers are pre-created accounts (`INTERVIEWER` role) and never overlap with applicant names.
+2. An Executive assigns each interviewer to one or more positions in the campaign and configures their available time slots.
+3. An Interviewer can only read their own assignments, their own availability, and their own confirmed interviews (plus the CVs attached to those assigned applications).
 
-| Field | Type | Rules |
-|---|---|---|
-| `id` | string | The user id. |
-| `fullName` | string | Display name. |
-| `email` | string | Account e-mail. |
-| `role` | string | Always `INTERVIEWER`. |
-| `assignedPositionIds` | array of strings | Positions the interviewer may conduct. |
-
-### Availability object
-
-| Field | Type | Rules |
-|---|---|---|
-| `id` | string | Server-generated. |
-| `interviewerId` | string | The interviewer. |
-| `campaignId` | string | The campaign the availability belongs to. |
-| `startTime` | string | ISO 8601. |
-| `endTime` | string | ISO 8601; after `startTime`. |
-| `isAvailable` | boolean | Always `true` for a stored slot. |
+---
 
 ## 2. List interviewers
 
@@ -35,15 +20,12 @@ Base path: `/api`.
 
 | Query | Type | Required | Rules |
 |---|---|---:|---|
-| `search` | string | No | Match name or e-mail. |
-| `positionId` | string | No | Only interviewers assigned to that position. |
-| `page` | integer | No | 1 or more; default 1. |
-| `limit` | integer | No | 1–100; default 10. |
+| `campaignId` | string | No | Filter assignments and availability by campaign. |
 
 ### Example
 
 ```http
-GET /api/interviewers?positionId=position_001&page=1&limit=10
+GET /api/interviewers?campaignId=campaign_001
 Authorization: Bearer {{token:exec}}
 ```
 
@@ -51,22 +33,137 @@ Authorization: Bearer {{token:exec}}
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{"success": true, "data": [{"id": "u-int-content", "fullName": "Phan Minh Đức", "email": "int-content@clubflow.test", "role": "INTERVIEWER", "assignedPositionIds": ["position_001"]}], "pagination": {"page": 1, "limit": 10, "totalItems": 1, "totalPages": 1}}
+{
+  "success": true,
+  "data": [
+    {
+      "id": "u-int-content",
+      "fullName": "Trần Thanh Tùng",
+      "email": "int-content@clubflow.test",
+      "positionIds": ["position_001"],
+      "availabilitySlotIds": ["slot_001", "slot_002", "slot_003"]
+    },
+    {
+      "id": "u-int-comms",
+      "fullName": "Ngô Ngọc Yến",
+      "email": "int-comms@clubflow.test",
+      "positionIds": ["position_002"],
+      "availabilitySlotIds": ["slot_001", "slot_003", "slot_004"]
+    },
+    ...
+  ]
+}
 ```
 
 ### Errors
 
 | Status | Code | When |
-|---:|---|---|
+| --- | --- | --- |
 | `401` | `UNAUTHORIZED` | No valid token. |
-| `403` | `FORBIDDEN` | The caller is not an Executive. |
+| `403` | `FORBIDDEN` | Caller is not an Executive. |
 
-## 3. Get one interviewer
+---
 
-**Endpoint:** `GET /api/interviewers/{interviewerId}`  
-**Access:** Executive · Interviewer own profile
+## 3. Read the caller's position assignments
 
-### Example — Executive
+**Endpoint:** `GET /api/interviewers/me/assignments`
+
+**Access:** Interviewer only
+
+### Example
+
+```http
+GET /api/interviewers/me/assignments
+Authorization: Bearer {{token:int-content}}
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "success": true,
+  "data": {
+    "interviewerId": "u-int-content",
+    "campaignId": "campaign_001",
+    "positions": [
+      {
+        "id": "position_001",
+        "department": "Media & Communications",
+        "name": "Content Creator"
+      }
+    ]
+  }
+}
+```
+
+### Errors
+
+| Status | Code | When |
+|---|---|---|
+| `401` | `UNAUTHORIZED` | No valid token. |
+| `403` | `FORBIDDEN` | Caller is not an Interviewer. |
+
+---
+
+## 4. Read the caller's confirmed interviews
+
+**Endpoint:** `GET /api/interviewers/me/interviews`
+
+**Access:** Interviewer only
+
+Returns only the confirmed interviews assigned to the signed-in Interviewer (Step C10), with links to read/download each assigned applicant's CV (internal screening notes are excluded).
+
+### Example
+
+```http
+GET /api/interviewers/me/interviews
+Authorization: Bearer {{token:int-content}}
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "success": true,
+  "data": [
+    {
+      "id": "interview_001",
+      "applicationId": "application_001",
+      "applicantName": "Nguyễn Minh Anh",
+      "studentId": "24120101",
+      "positionId": "position_001",
+      "positionName": "Content Creator",
+      "date": "2026-11-05",
+      "startTime": "09:00",
+      "endTime": "09:20",
+      "roomId": "room_001",
+      "roomName": "Phòng A",
+      "cvUrl": "/api/applications/application_001/cv",
+      "assessmentStatus": "PENDING"
+    },
+    ...
+  ]
+}
+```
+
+### Errors
+
+| Status | Code | When |
+|---|---|---|
+| `401` | `UNAUTHORIZED` | No valid token. |
+| `403` | `FORBIDDEN` | Caller is not an Interviewer. |
+
+---
+
+## 5. Read one interviewer
+
+**Endpoint:** `GET /api/interviewers/{interviewerId}`
+
+**Access:** Executive · Interviewer own
+
+### Example
 
 ```http
 GET /api/interviewers/u-int-content
@@ -77,43 +174,40 @@ Authorization: Bearer {{token:exec}}
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{"success": true, "data": {"id": "u-int-content", "fullName": "Phan Minh Đức", "email": "int-content@clubflow.test", "role": "INTERVIEWER", "assignedPositionIds": ["position_001"]}}
-```
-
-### Example — another interviewer
-
-```http
-GET /api/interviewers/u-int-content
-Authorization: Bearer {{token:int-comms}}
-```
-
-```http
-HTTP/1.1 403 Forbidden
-Content-Type: application/json
-
-{"success": false, "message": "You cannot access this interviewer", "error": {"code": "FORBIDDEN"}}
+{
+  "success": true,
+  "data": {
+    "id": "u-int-content",
+    "fullName": "Trần Thanh Tùng",
+    "email": "int-content@clubflow.test",
+    "positionIds": ["position_001"],
+    "availabilitySlotIds": ["slot_001", "slot_002", "slot_003"]
+  }
+}
 ```
 
 ### Errors
 
 | Status | Code | When |
-|---:|---|---|
+|---|---|---|
 | `401` | `UNAUTHORIZED` | No valid token. |
-| `403` | `FORBIDDEN` | An interviewer asks for another interviewer. |
+| `403` | `FORBIDDEN` | Interviewer trying to read another interviewer's profile. |
 | `404` | `INTERVIEWER_NOT_FOUND` | No interviewer has that id. |
 
-## 4. Replace position assignments
+---
 
-**Endpoint:** `PUT /api/interviewers/{interviewerId}/positions`  
-**Access:** Executive only  
+## 6. Replace an interviewer's position assignments
+
+**Endpoint:** `PUT /api/interviewers/{interviewerId}/positions`
+
+**Access:** Executive only
+
 **Content-Type:** `application/json`
 
-The body replaces the interviewer's assignments for one campaign.
-
 | Field | Type | Required | Rules |
-|---|---|---:|---|
-| `campaignId` | string | Yes | The campaign that owns the positions. |
-| `positionIds` | array of strings | Yes | Every position must belong to the campaign. An empty array removes all assignments. |
+|---|---|---|---|
+| `campaignId` | string | Yes | Must exist and not be `CONFIRMED`. |
+| `positionIds` | array of string | Yes | At least 1 valid position id in the campaign. |
 
 ### Example
 
@@ -122,68 +216,92 @@ PUT /api/interviewers/u-int-content/positions
 Authorization: Bearer {{token:exec}}
 Content-Type: application/json
 
-{"campaignId": "campaign_001", "positionIds": ["position_001"]}
+{
+  "campaignId": "campaign_001",
+  "positionIds": ["position_001"]
+}
 ```
 
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{"success": true, "message": "Interviewer positions updated successfully", "data": {"interviewerId": "u-int-content", "assignedPositionIds": ["position_001"]}}
+{
+  "success": true,
+  "message": "Interviewer position assignments updated",
+  "data": {
+    "interviewerId": "u-int-content",
+    "campaignId": "campaign_001",
+    "positionIds": ["position_001"]
+  }
+}
 ```
 
 ### Errors
 
 | Status | Code | When |
-|---:|---|---|
-| `400` | `VALIDATION_ERROR` | `campaignId` is missing, or `positionIds` is not an array. |
-| `403` | `FORBIDDEN` | The caller is not an Executive. |
-| `404` | `INTERVIEWER_NOT_FOUND` | No interviewer has that id. |
-| `404` | `POSITION_NOT_FOUND` | A position does not exist in the campaign. |
-| `409` | `INVALID_INTERVIEWER_ROLE` | The user does not have the `INTERVIEWER` role. |
-| `409` | `ASSIGNMENT_LOCKED` | The campaign is confirmed. |
+|---|---|---|
+| `400` | `VALIDATION_ERROR` | `positionIds` is empty or contains an invalid position id. |
+| `401` | `UNAUTHORIZED` | No valid token. |
+| `403` | `FORBIDDEN` | Caller is not an Executive. |
+| `404` | `INTERVIEWER_NOT_FOUND` | Interviewer does not exist. |
+| `409` | `CAMPAIGN_LOCKED` | Campaign schedule is already `CONFIRMED`. |
 
-## 5. Read availability
+---
 
-**Endpoint:** `GET /api/interviewers/{interviewerId}/availability`  
+## 7. Read availability
+
+**Endpoint:** `GET /api/interviewers/{interviewerId}/availability`
+
 **Access:** Executive · Interviewer own
 
 | Query | Type | Required | Rules |
-|---|---|---:|---|
-| `campaignId` | string | Yes | The campaign to read. |
+|---|---|---|---|
+| `campaignId` | string | No | Filter by campaign; defaults to active campaign. |
 
 ### Example
 
 ```http
 GET /api/interviewers/u-int-content/availability?campaignId=campaign_001
-Authorization: Bearer {{token:exec}}
+Authorization: Bearer {{token:int-content}}
 ```
 
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{"success": true, "data": [{"id": "availability_001", "interviewerId": "u-int-content", "campaignId": "campaign_001", "startTime": "2026-11-05T09:00:00+07:00", "endTime": "2026-11-05T11:00:00+07:00", "isAvailable": true}, {"id": "availability_002", "interviewerId": "u-int-content", "campaignId": "campaign_001", "startTime": "2026-11-05T11:20:00+07:00", "endTime": "2026-11-05T12:00:00+07:00", "isAvailable": true}]}
+{
+  "success": true,
+  "data": {
+    "interviewerId": "u-int-content",
+    "campaignId": "campaign_001",
+    "slotIds": ["slot_001", "slot_002", "slot_003"]
+  }
+}
 ```
 
 ### Errors
 
 | Status | Code | When |
-|---:|---|---|
-| `400` | `VALIDATION_ERROR` | `campaignId` is missing. |
-| `403` | `FORBIDDEN` | An interviewer asks for another interviewer. |
-| `404` | `INTERVIEWER_NOT_FOUND` | No interviewer has that id. |
+|---|---|---|
+| `401` | `UNAUTHORIZED` | No valid token. |
+| `403` | `FORBIDDEN` | Interviewer trying to read another interviewer's availability. |
+| `404` | `INTERVIEWER_NOT_FOUND` | Interviewer does not exist. |
 
-## 6. Replace availability
+---
 
-**Endpoint:** `PUT /api/interviewers/{interviewerId}/availability`  
-**Access:** Executive only  
+## 8. Replace availability for a campaign
+
+**Endpoint:** `PUT /api/interviewers/{interviewerId}/availability`
+
+**Access:** Executive only
+
 **Content-Type:** `application/json`
 
 | Field | Type | Required | Rules |
-|---|---|---:|---|
-| `campaignId` | string | Yes | The campaign. |
-| `slots` | array | Yes | Non-overlapping `{startTime, endTime}` intervals inside the campaign interview date. |
+|---|---|---|---|
+| `campaignId` | string | Yes | Must exist and not be `CONFIRMED`. |
+| `slotIds` | array of string | Yes | Valid slot ids from `GET /api/campaigns/{campaignId}/slots`. |
 
 ### Example
 
@@ -192,93 +310,41 @@ PUT /api/interviewers/u-int-content/availability
 Authorization: Bearer {{token:exec}}
 Content-Type: application/json
 
-{"campaignId": "campaign_001", "slots": [{"startTime": "2026-11-05T09:00:00+07:00", "endTime": "2026-11-05T11:00:00+07:00"}, {"startTime": "2026-11-05T11:20:00+07:00", "endTime": "2026-11-05T12:00:00+07:00"}]}
+{
+  "campaignId": "campaign_001",
+  "slotIds": ["slot_001", "slot_002", "slot_003"]
+}
 ```
 
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{"success": true, "message": "Interviewer availability updated successfully", "data": {"interviewerId": "u-int-content", "campaignId": "campaign_001", "slots": [{"id": "availability_001", "startTime": "2026-11-05T09:00:00+07:00", "endTime": "2026-11-05T11:00:00+07:00"}, {"id": "availability_002", "startTime": "2026-11-05T11:20:00+07:00", "endTime": "2026-11-05T12:00:00+07:00"}]}}
+{
+  "success": true,
+  "message": "Interviewer availability updated",
+  "data": {
+    "interviewerId": "u-int-content",
+    "campaignId": "campaign_001",
+    "slotIds": ["slot_001", "slot_002", "slot_003"]
+  }
+}
 ```
 
 ### Errors
 
 | Status | Code | When |
-|---:|---|---|
-| `400` | `VALIDATION_ERROR` | A slot is malformed, `startTime` is not before `endTime`, or a slot is outside the interview date. |
-| `403` | `FORBIDDEN` | The caller is not an Executive. |
-| `404` | `INTERVIEWER_NOT_FOUND` | No interviewer has that id. |
-| `404` | `CAMPAIGN_NOT_FOUND` | The campaign does not exist. |
-| `409` | `AVAILABILITY_CONFLICT` | Two supplied slots overlap, or a change would invalidate a confirmed interview. |
-| `409` | `SCHEDULE_ALREADY_CONFIRMED` | The schedule is confirmed and availability is read-only. |
-
-## 7. Get my position assignments
-
-**Endpoint:** `GET /api/interviewers/me/assignments`  
-**Access:** Interviewer only
-
-The server identifies the interviewer from the token.
-
-### Example
-
-```http
-GET /api/interviewers/me/assignments
-Authorization: Bearer {{token:int-comms}}
-```
-
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{"success": true, "data": [{"campaignId": "campaign_001", "campaignName": "Tuyển thành viên CLB Công nghệ thông tin 2026", "positions": [{"id": "position_002", "name": "Communications Officer", "department": "Ban Truyền thông"}]}, {"campaignId": "campaign_002", "campaignName": "Tuyển thành viên CLB Công nghệ thông tin 2025", "positions": [{"id": "position_101", "name": "Content Creator", "department": "Ban Nội dung"}]}]}
-```
-
-### Errors
-
-| Status | Code | When |
-|---:|---|---|
+|---|---|---|
+| `400` | `VALIDATION_ERROR` | Unknown slot id or invalid payload. |
 | `401` | `UNAUTHORIZED` | No valid token. |
-| `403` | `FORBIDDEN` | The caller is not an Interviewer. |
+| `403` | `FORBIDDEN` | Caller is not an Executive. |
+| `404` | `INTERVIEWER_NOT_FOUND` | Interviewer does not exist. |
+| `409` | `CAMPAIGN_LOCKED` | Campaign schedule is already `CONFIRMED`. |
 
-## 8. Get my interviews
-
-**Endpoint:** `GET /api/interviewers/me/interviews`  
-**Access:** Interviewer only
-
-Only confirmed interviews assigned to the caller are returned.
-
-| Query | Type | Required | Rules |
-|---|---|---:|---|
-| `campaignId` | string | No | Filter by campaign. |
-| `date` | string | No | `YYYY-MM-DD`. |
-| `page` | integer | No | 1 or more; default 1. |
-| `limit` | integer | No | 1–100; default 10. |
-
-### Example
-
-```http
-GET /api/interviewers/me/interviews?page=1&limit=10
-Authorization: Bearer {{token:int-comms}}
-```
-
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{"success": true, "data": [{"id": "interview_101", "applicationId": "application_101", "campaignId": "campaign_002", "positionName": "Content Creator", "applicant": {"fullName": "Lê Thu Hà", "studentId": "24120103"}, "startTime": "2025-11-05T09:00:00+07:00", "endTime": "2025-11-05T09:20:00+07:00", "room": {"id": "room_a", "name": "Phòng A"}, "status": "CONFIRMED"}], "pagination": {"page": 1, "limit": 10, "totalItems": 1, "totalPages": 1}}
-```
-
-### Errors
-
-| Status | Code | When |
-|---:|---|---|
-| `400` | `VALIDATION_ERROR` | An invalid date or pagination value. |
-| `401` | `UNAUTHORIZED` | No valid token. |
-| `403` | `FORBIDDEN` | The caller is not an Interviewer. |
+---
 
 ## 9. Changes
 
 | Date | Change | Why |
 |---|---|---|
-| 2026-11-25 | Added `campaignId` to position and availability operations, executable examples, and the read-only rule after confirmation. | Prevent cross-campaign assignments and make the interviewer workspace testable. |
+| 2026-11-26 | Aligned all 7 interviewer endpoints (`GET /api/interviewers`, `/me/assignments`, `/me/interviews`, `/{interviewerId}`, `/positions`, `/availability`), `{success, data}` response envelopes, and IDs (`u-int-content`, `u-int-comms`, `slot_001`) with `README.md` and `auth.md`. | Ensure 100% endpoint table coverage and pass `contract-check.mjs`. |
