@@ -1,0 +1,398 @@
+PA#3 — Front end in React · rubric
+CSC13008 · 24KTPM1 · project assignment · teams of up to 3 · 7% of the course · 100
+points
+Due Monday, November 30, 2026, 22:00. This is the third milestone of your project: your
+team builds the whole main ﬂow of ClubFlow as a React app, from publishing a campaign to
+the applicant seeing the result, for all three roles. The app gets every piece of data from an API,
+and that API is written down ﬁrst: your team writes the endpoint contract in docs/api/ ,
+builds a small mock server that answers exactly as the contract says, and only then has the
+assistant connect the screens to it. In PA#4 a real Express server takes the mock's place
+without the front end changing. The ﬂow and the list of problems to avoid are in the ClubFlow
+ﬁnal project brief. This rubric is the brief for PA#3.
+Use your assistant. Nothing in this milestone asks you to type code yourself: it scores what the
+app does in a browser, what the contract says, what you told the assistant, and how you
+checked what it wrote.
+What you build
+A React app made with Vite, in client/ . One CSS framework, or plain CSS, bundled into
+the build. A router for the screens — React Router, with BrowserRouter  or HashRouter . No
+other JavaScript framework (no Next.js, no Remix framework mode). If PA#2 was React at
+the repository root, move it into client/  in one commit of its own.
+The whole main ﬂow — steps C1–C11 below, every one reachable from the app's own
+links and buttons. PA#2's three screens were the Executive's part; PA#3 adds the
+Applicant's and the Interviewer's. Your team chooses the screens, the layout, the content,
+the colours and the ﬁle names; a diﬀerence from the brief's screens does not cost marks.
+What counts is that the steps work and that none of the problems on the brief's Fix these
+list appears.
+Sign-in for the three roles, with demo accounts. Each role lands on its own home and
+sees only its own screens; signed out, a protected screen sends you to sign-in and back.
+Real security comes in PA#4: here the front end only has to behave correctly with the token
+the mock gives it.
+Every piece of data comes from the API. Campaigns, positions, applications,
+interviewers, slots, rooms, the schedule: nothing the user sees on a main-ﬂow screen is
+written into a component. Every screen that loads data shows a loading state, an error with
+a way to retry, and an empty state.
+The contract and the mock, before the code that uses them. See The contract and
+The mock below.
+Responsive and semantic, as in PA#2: usable at 360, 768 and 1280 px with no
+horizontal scroll; landmarks, one <h1>  per screen, real links and buttons, a label on every
+input.
+The main ﬂow — what must work
+The data follows the brief's example (section 3.4): Student A applies for Content and for
+Communications in the same campaign, which makes two applications, A01 and A02. Use one
+
+campaign and one timeline on every screen.
+Step Who What must work
+C1 Visitor The published campaign: its description, dates, instructions,
+departments and positions with quotas and requirements. Apply asks
+the visitor to sign in.
+C2 Everyone Sign in with a demo account, land on the home of that role, sign out.
+C3 Executive Create the campaign: details, opening and closing dates,
+instructions, departments and positions with quotas, descriptions and
+requirements — rows added and removed. Save as Draft, Preview
+Campaign, Publish Campaign. Publishing with a missing ﬁeld or
+impossible dates stays on the screen and says what is wrong.
+C4 Executive Interview setup: interviewers assigned to one or more positions, their
+available slots, the rooms chosen from the list, one slot duration for
+the campaign (15, 20 or 30 minutes).
+C5 Applicant Apply for a position with the ﬁxed form: student information, a CV in
+PDF (at most 5 MB), a motivation statement (at most 300 words),
+availability chosen from the club's slots. Applying for a second
+position works; applying for the same position again opens the
+existing application; applying to a closed campaign shows the error
+and keeps what was entered.
+C6 Applicant My applications: one row per application, with its status — submitted,
+shortlisted or rejected after CV screening, the interview time and
+room once the schedule is conﬁrmed, the result once published. Only
+their own.
+C7 Executive Application review: statistics, search, ﬁlter, sort, pagination and CSV
+export on the list; a drawer with the CV and the statement beside
+the list; an internal note; Shortlist Candidate or Reject changes only
+that application; closing the drawer keeps the ﬁlters. Continue to
+Interview Scheduling once one application is shortlisted.
+C8 Executive Scheduling: choose the date, time window and duration, generate a
+draft. Each row is Proposed, Unassigned with its reason, or Conﬂict
+naming what overlaps. Edit, Resolve and + Assign Slot change it;
+Save Changes keeps the draft; the table can be exported.
+C9 Executive Approve & Conﬁrm Schedule: a summary; refused while any
+application is Unassigned or in Conﬂict, naming them; after
+conﬁrmation the campaign and the schedule are read-only, editing
+and regeneration are disabled, and the screen shows the Conﬁrmed
+state.
+C10 Interviewer Their assigned interviews, and the CVs of those applications only;
+one assessment for each interview.
+
+Step Who What must work
+C11 Executive,
+then
+Applicant
+The Executive records Pass or Fail for each application and publishes
+it; the applicant sees the result on that application and an in-app
+notiﬁcation.
+The product owners decide how ClubFlow behaves where the brief leaves room (brief,
+section 6) — for example what an applicant sees after a rejection. Cite every decision you rely
+on in FRONTEND.md . They cannot remove a step from this table: the rubric belongs to the
+lecturer.
+Fix these in PA#3
+The brief's list applies as written, now to every screen of the app: one timeline on every screen;
+each screen's own title; the drawer and the list both readable at every width; counts that add
+up — computed from the API's data, not typed in; a Conﬂict that is a real overlap; no person
+who is both an applicant and an interviewer; nothing that says "veriﬁed"; no template footer.
+The contract — docs/api/
+Write it before the assistant writes the code that calls it, and give it to the assistant as the
+thing to follow.
+docs/api/README.md  — the base path (/api ), how a request says who is calling
+(Authorization: Bearer <token> ), one error shape for the whole API, the status codes you
+use, and a table of every endpoint: method, path, the roles that may call it, the ﬁle that
+describes it.
+One ﬁle per resource (docs/api/campaigns.md , docs/api/applications.md …). For each
+endpoint: who may call it; the path and query parameters; the body, with each ﬁeld's type,
+whether it is required and its limits; the success answer; and every error answer that can
+happen — 400  with a message per ﬁeld, 401 , 403 , 404 , 409  where they apply.
+Examples we can send. Each endpoint has at least one example: a request block followed
+by the answer block, both fenced as http :
+`text http POST /api/auth/login Content-Type: application/json
+{"email": "studenta@clubﬂow.test", "password": "studenta-demo"} ```
+```http HTTP/1.1 200 OK Content-Type: application/json
+{"token": "…", "user": {"id": "u-studenta", "name": "Student A", "role": "applicant"}}
+Where a request needs a token, write Authorization: Bearer {{token:studentA}} , with a name
+from the Demo accounts table of FRONTEND.md ; we sign in as that account and put its token
+there. …  stands for anything: a value ("token": "…" ), an object ({…} ), a list ([…] ), or more
+items or ﬁelds at the end (, … ). An upload may be written as a curl  line in a sh  block instead.
+We send docs/api/README.md  ﬁrst, then the other ﬁles of docs/api/  in alphabetical order, each
+from top to bottom, to one freshly started mock: write the examples so that they work in that
+order (number the ﬁles, 01-auth.md , if your ﬂow needs another order). - A ## Changes  section
+
+at the end of each ﬁle. Once front-end code calls an endpoint, every later change to it gets a
+line here: the date, what changed, and why.
+The mock — mock/server.mjs
+node mock/server.mjs  starts it on the port in PORT , 3001 by default. It uses only Node's
+built-in modules (node:http , node:fs …), so it runs with no npm install  — that is how we
+run it.
+It starts from the data in mock/data/ , keeps every change in memory, and starts over when
+restarted. The data tells the brief's example story.
+MOCK_MODE  sets how it answers: normal  (after about 150 ms), slow  (after 2 s), error  (500
+with your error shape, for every request except sign-in), empty  (every list in an answer is
+[] , including a list inside an object; a single object — one campaign, one application — still
+answers).
+It accepts the demo accounts at sign-in and answers with a token and the user's role; the
+other requests read that token to know who is asking. A made-up token is ﬁne here, but it
+must still work after the mock restarts (for example token-<user id> ): we restart the mock
+to change modes, then press Retry.
+It answers every example in docs/api/  exactly as written, and it can show every state the
+steps need — a campaign that fails to publish, a duplicate application, a draft with
+Proposed, Unassigned and Conﬂict rows, a refused conﬁrmation, a conﬁrmed schedule. It
+does not have to compute the schedule: ﬁxed answers from mock/data/  are ﬁne. An
+uploaded CV may be ignored.
+It prints one line per request: method, path, status.
+The front end calls only relative paths (/api/applications , never
+http://localhost:3001/… ). In client/vite.config.js , forward /api  to http://localhost:3001  in
+both server.proxy  and preview.proxy , so npm run dev  and npx vite preview  both reach the
+mock. In PA#4 your Express server listens on the same port.
+What you hand in
+One zip of your team repository folder including its hidden .git  folder. Leave every
+node_modules/  out; keep client/dist/ . Zip the folder itself: GitHub's Download ZIP, git archive
+and a fresh clone leave .git  or dist/  out. In the repository:
+client/  — the source, and client/dist/  built after your last change. We do not run npm :
+what we mark is that build.
+mock/server.mjs  and mock/data/
+docs/api/  — the contract
+the project rules ﬁle your assistant reads (CLAUDE.md , AGENTS.md , .cursor/rules  or
+.github/copilot-instructions.md ), updated for React and the contract
+FRONTEND.md  — the sections listed below
+brief.md  — what you actually gave the assistant for PA#3. It replaces the PA#2 one, which
+stays in the history.
+AI-LOG.md  — add a ## PA#3  heading and log under it; keep the PA#2 entries above
+SELF_ASSESSMENT_REPORT.md  — for PA#3
+
+Write FRONTEND.md , docs/api/ , brief.md , AI-LOG.md  and SELF_ASSESSMENT_REPORT.md  in English.
+The text on the screens themselves may be in Vietnamese.
+What FRONTEND.md  must contain
+1. Team — full name and student ID of every member
+2. How to run it — node mock/server.mjs ; then in client/ : npm ci , npm run dev ; and how to
+preview the build (npm run build , npx vite preview )
+3. Demo accounts — one row per account: the name in examples, role, e-mail or user name,
+password. At least exec  (Executive), studentA  (Applicant, with A01 and A02), int-content
+(Interviewer for Content) and int-comms  (Interviewer for Communications).
+4. Routes — one row per route: the path as the browser shows it (/applications/A01 , or
+/#/applications/A01  with HashRouter ), the role, the steps C1–C11 it serves, and the
+endpoints it calls. We open every path on a freshly started mock, so use ids the mock starts
+with (A01 ). A path that exists only after a step of the ﬂow says so in its row (after C9 );
+opened before that step it shows a message, not a blank screen
+5. Product owner decisions — a link to each post you rely on, and what it decided
+6. Libraries — the router, the form library if any, the CSS framework, anything else you
+added, one line each on why
+7. Not done — any step or part of a step that does not work
+What is scored
+# Criterion Points
+1 The whole main ﬂow, in React 25
+2 Routing, sign-in and shared state 10
+3 Data from the API: loading, errors, empty lists 10
+4 Forms 10
+5 The contract and the mock 15
+6 Responsive, semantic, valid 5
+7 The brief and the rules ﬁle 10
+8 AI-LOG.md 10
+9 Commit history 5
+Criteria 1–6 are marked by running your app. We start your mock with node mock/server.mjs
+in a container with no network, one CPU and 512 MB of memory, stopped when the run ends. A
+static server of ours serves client/dist/ , sends any path that is not a ﬁle to index.html , and
+forwards /api  to the mock — what vite preview  does with the proxy above. Chromium opens
+it with JavaScript on and every address except localhost  blocked. A script signs in as each
+demo account through your sign-in screen (it ﬁlls the one e-mail or text input, the password
+input, and presses the submit button), opens every route in Routes directly at 360, 768 and
+1280 px, measures the horizontal scroll and the tap targets, and lists landmarks, headings,
+
+labels and buttons. We restart the mock in slow , error  and empty  modes and open the data
+screens again. A script then walks steps C1–C11 with the demo accounts, pressing the buttons
+and links the brief names (Publish Campaign, Shortlist Candidate…); where your screens name
+them diﬀerently, a marker walks that step by hand. We compare the mock's request log with
+the contract. We send every example in docs/api/  to a freshly started mock and compare the
+status code and the names of the ﬁelds in the answer; values that diﬀer are listed for us to
+read, not counted. We run the W3C checker on the rendered HTML of the main screens. For
+criteria 5, 7–9 we read the contract, the brief, the log and the history.
+1. The whole main ﬂow — 25 points
+Points What it looks like
+22–25 All of C1–C11 work in our run, each reached through the app's own links and
+buttons, in the order of the ﬂow, with the brief's example data. Each role sees its
+own screens. A01 and A02 stay separate applications all the way: a decision on one
+never changes the other. None of the problems on the Fix these list appears.
+15–21 One or two steps missing or broken, or one Fix these problem.
+8–14 About half the steps work, or the ﬂow works for only one role.
+0–7 A few screens with nothing behind them; the PA#2 pages re-rendered; or the app
+does not open from client/dist/ .
+2. Routing, sign-in and shared state — 10 points
+Points What it looks like
+9–10 Every route in Routes opens directly and after a reload. An unknown path shows a
+not-found screen. Moving between screens is a router link (<a href> ) or a form's
+submit button, and the browser's Back button goes back. Signed out, a protected
+route goes to sign-in and, after sign-in, back to that route. A role opening another
+role's route is turned away. The signed-in user and the token live in one context,
+read through a hook; signing out clears them; every request after sign-in carries
+Authorization: Bearer . After an action — shortlisting, saving the draft — the screen
+updates from the API's answer, without a page reload; the review list keeps its
+ﬁlters when the drawer closes.
+5–8 Works, with one or two slips: a route that breaks on reload, sign-in that forgets
+where you were going, a list that needs a reload to show the change.
+1–4 Routes open only by clicking from the home screen, or the role is read from the
+URL or a checkbox instead of the token.
+0 No router, or no sign-in.
+
+3. Data from the API — 10 points
+Points What it looks like
+9–10 In empty  mode every list screen shows an empty message, not a blank area and
+not an error, and the counts read 0: nothing on a main-ﬂow screen is written into a
+component. In slow  mode each data screen shows that it is loading. In error  mode
+each shows the problem and a Retry button; with the mock back in normal  mode,
+Retry loads the data without reloading the page. A screen sends one request per
+thing it loads — the mock's log shows no repeated requests while you wait, and
+typing in the search box does not send a request per key without a debounce or a
+cancel.
+5–8 One or two screens slip: a blank area while loading, an error with no Retry, one list
+that stays ﬁlled in empty  mode.
+1–4 Most screens show data written into the components, or freeze on an error.
+0 No request reaches the mock.
+4. Forms — 10 points
+The main-ﬂow forms: sign-in, the campaign form with its rows of positions (C3), the interview
+setup (C4), the application form (C5), the internal note (C7), the scheduling form and the slot
+edit (C8), the assessment (C10), the result (C11). A form library such as react-hook-form is
+allowed, not required.
+Points What it looks like
+9–10 Every input has a visible <label> . Before sending, the form checks what the
+contract requires and, after the ﬁrst try, shows one message per ﬁeld next to it,
+tied to it so Tab  reaches the message with the ﬁeld — including a ﬁeld inside the
+rows of positions. A 400  from the API shows its ﬁeld messages on the matching
+ﬁelds. What the user typed stays after an error. The submit button cannot send
+twice while a request is out. The application form refuses a CV that is not a PDF or
+is larger than 5 MB, and a statement over 300 words, before sending.
+5–8 Validation works, but one or two of: messages all at the top, the API's ﬁeld errors
+not shown, values lost after an error, a double submit.
+1–4 Forms send without checking anything, or submitting reloads the page.
+0 No working form.
+
+5. The contract and the mock — 15 points
+Points What it looks like
+14–15 docs/api/README.md  has the base path, the auth header, one error shape and the
+table of every endpoint with its roles. Every endpoint has its ﬁelds, limits and error
+answers, and at least one example. Every request the app makes in our walk
+is in the contract, and every example gets the answer it shows from the mock.
+Each endpoint was committed to docs/api/  before the ﬁrst commit of front-end
+code that calls it (we check a sample with git log ). Every later change to
+docs/api/  or mock/  has its line in ## Changes . The mock uses only Node's built-in
+modules and has the four modes.
+9–13 A real contract, but a few requests in the walk are missing from it, a few examples
+get a diﬀerent answer, or the error answers are left out.
+4–8 The contract was written after the code (same commit or later), or it changed to
+match the code with no line in ## Changes ; or the mock needs npm install .
+0–3 No contract, or no mock: the app reads ﬁles or arrays of its own.
+Why this order matters. When the front end and the mock disagree, an assistant usually
+"ﬁxes" it by changing the mock or the contract to match its code. Commit the contract ﬁrst,
+then the mock, then hand the screens to the assistant, and read git diff -- docs/api mock
+after every request. A change there that you did not ask for is the ﬁrst thing to reject.
+6. Responsive, semantic, valid — 5 points
+Points What it looks like
+5 Every route at 360, 768 and 1280 px: no horizontal scroll, nothing cut oﬀ, buttons
+and links that stand on their own at least 44 px tall at 360 px; a wide table scrolls
+inside its own wrapper. Landmarks, one <h1>  per screen, no skipped heading level,
+actions as <button> , moving as <a href> . 0 errors in the W3C checker on the
+rendered HTML of the main screens.
+3–4 One or two ﬂaws: a small sideways scroll, a tap target under 44 px, a checker error.
+0–2 One width broken on several screens, or screens built from <div> s.
+The two Console lines of the PA#2 rubric still apply. The checker on dist/index.html  shows 0
+errors even when a screen is broken: copy the rendered <html>  from DevTools, as in PA#2.
+7. The brief and the rules ﬁle — 10 points
+brief.md  is what you actually gave the assistant, not a summary written afterwards. Several
+prompts are ﬁne — paste them in order.
+
+Points What it looks like
+9–10 The brief hands over the steps and points the assistant at docs/api/  as the thing to
+follow, and states the constraints an assistant breaks when nobody says them: call
+only the endpoints in the contract and stop and say so when one is missing; do
+not edit docs/api/  or mock/ ; relative /api  paths only; no data written into
+components; loading, error and empty states on every data screen; the router,
+form and CSS choices and no new dependency without asking; the semantic and
+responsive rules from PA#2. It says how done is checked: the steps, the four mock
+modes, routes opened directly, three widths. The rules ﬁle records the stack and a
+never list for the whole team, updated for React and the contract.
+5–8 A real brief with two or three of those left out; or a good brief and a rules ﬁle still
+about static pages.
+1–4 One line: "connect the screens to the API".
+0 No brief.
+8. AI-LOG.md  — 10 points
+One entry per task you gave the assistant, under ## PA#3 . The lines we read ﬁrst are Changed
+and Rejected.
+Points What it looks like
+9–10 Each entry names the tool and the request, and at least two entries record
+something the assistant got wrong, which check caught it (a mock mode, the
+mock's request log, a route opened directly, git diff -- docs/api mock , a width)
+and what you told it — e.g. "it computed the Conﬂict count in the component from
+a hard-coded list; in empty  mode the footer still said 1 Conﬂict; asked it to count
+the rows the API returns". Speciﬁc enough to ﬁnd in the commits.
+5–8 Honest, with tool and request, but Changed/Rejected say "none" everywhere or
+stay vague ("ﬁxed the API calls").
+1–4 One entry for the whole milestone, or clearly written after the fact.
+0 Missing, or contradicted by the code or the history.
+Tool: none  is a valid entry for a task you did without an assistant. "Nothing went wrong" is
+acceptable — if it says which checks you ran.
+9. Commit history — 5 points
+Points What it looks like
+5 The contract, then the mock, each committed before the front-end code that uses
+them; then at least one commit per step or group of steps, each message saying
+what changed; a commit before each request to the assistant, so each of its
+changes is its own diﬀ. The log can be checked against the ﬁles.
+
+Points What it looks like
+2–4 Some history, but commits mix several steps, or the contract arrives with the code,
+or the messages say only "update".
+0–1 One commit with everything, or no .git  folder in the zip.
+A history split or rebuilt after the work was ﬁnished does not count as one commit per part; it
+scores at the level for commits that mix several parts.
+Commit under the name of whoever did the work — set git config user.name  and user.email
+on each member's machine, since the zip carries those and not a GitHub account. When a
+team asks for marks to be split, the history is the ﬁrst thing we read.
+How to submit
+One zip ﬁle per team, submitted by one member, named after the student IDs and the total
+you give yourselves: <StudentID1>-<StudentID2>-<StudentID3>_<total>.zip , IDs in ascending
+order — for example 24127001-24127042-24127117_75.zip . A team of two has two IDs; a team of
+one, one.
+The zip must contain SELF_ASSESSMENT_REPORT.md : one row per criterion in this rubric, the marks
+you claim, and evidence pointing at a ﬁle, a route, a contract example or a commit — plus a
+short what we did not manage. The total in that table is the number in the ﬁle name. Template
+in Course documents on Classroom.
+A wrong ﬁle name costs no marks but delays your result — the grading script matches
+submissions to the class list by that name.
+Turn in from your <StudentID>@student.hcmus.edu.vn  Google account.
+Resubmit as often as you like before the deadline; the last version is graded. Late: under 2
+hours −20% of the total · 2–24 hours −50% · after 24 hours not accepted.
+Honesty adjustment
+Your self-assessment is compared with the mark you actually earn. The gap is your total − the
+mark , on the same 100-point scale.
+Gap Adjustment
+within ±10 none — this is normal calibration
++11 to +20 −3
++21 to +30 −6
+more than +30 −10
+−21 or worse −3 — read the rubric before you score yourselves down
+no SELF_ASSESSMENT_REPORT.md −10, and the ﬁle-name total is ignored
+
+A criterion you claim with no evidence line counts as claimed-and-not-done for this comparison.
+The adjustment never takes a submission below 0.
+Converting to the course mark
+PA#3 is 7% of the course: mark / 100 × 7 . A team scoring 80 earns 5.6 of the 7 percentage
+points. Every member of the team receives the same mark, unless the team asks for the marks
+to be split (criterion 9).
+Notes
+Same team as PA#1 and PA#2. A team that changes members tells the lecturer before it
+starts, not in the submission.
+Before you hand in, run what we run: npm run build ; start the mock in each of the four
+modes; npx vite preview ; turn your network oﬀ; sign in as each demo account and open
+every route in Routes directly at the three widths; send every example in docs/api/  to a
+freshly started mock (node contract-check.mjs , attached to this assignment — the tool we
+run — or curl -i ).
+Opened directly means opened directly: a screen that ﬁlls itself only after a click on an
+earlier screen counts as blank.
+PA#4 replaces the mock with your Express server on the same port and runs the same
+contract examples against it. A contract that is exact now is the speciﬁcation you
+implement next.
+You may be asked to explain any line in class — including lines your assistant wrote.
+Explaining what a line does and how you checked it is enough; nobody will ask you to write
+it from memory.
