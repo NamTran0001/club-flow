@@ -113,10 +113,15 @@ Shared error codes include `VALIDATION_ERROR`, `UNAUTHORIZED`, `FORBIDDEN`,
 - Applicants may hold several applications in one campaign, at most one per
   position. A decision on one application never changes another.
 - CV screening (`PENDING`, `SHORTLISTED`, `REJECTED`) is separate from
-  interview state (`PROPOSED`, `UNASSIGNED`, `CONFLICT`, `CONFIRMED`) and from
-  the final result (`PASS`, `FAIL`).
-- A confirmed campaign and its schedule are read-only. Assessments and final
-  results remain available afterwards.
+  interview state (`PROPOSED`, `UNASSIGNED`, `CONFLICT`, `CONFIRMED`,
+  `COMPLETED`) and from the final result (`PASS`, `FAIL`). `COMPLETED` means
+  the interview has taken place and its assignment details are read-only.
+- A confirmed campaign and its schedule are read-only. The interview execution
+  status may still move from `CONFIRMED` to `COMPLETED`, and assessments and
+  final results remain available afterwards.
+- A `room` is always an object with an `id` and a `name`, for example
+  `{"id": "room_a", "name": "Phòng A"}`. Application, schedule and interviewer
+  answers use the same shape.
 
 ## 6. Endpoint table
 
@@ -136,10 +141,13 @@ then the other `docs/api/*.md` files in alphabetical order.
 | `POST` | `/api/campaigns/{campaignId}/open` | Executive | Publish a draft campaign. | `campaigns.md` |
 | `POST` | `/api/campaigns/{campaignId}/close` | Executive | Close the application period. | `campaigns.md` |
 | `POST` | `/api/campaigns/{campaignId}/confirm` | Executive | Confirm the schedule and lock the campaign. | `campaigns.md` |
+| `POST` | `/api/campaigns/{campaignId}/complete` | Executive | Mark a confirmed campaign as completed. | `campaigns.md` |
 | `POST` | `/api/campaigns/{campaignId}/positions` | Executive | Add a position to a draft campaign. | `campaigns.md` |
 | `PATCH` | `/api/campaigns/{campaignId}/positions/{positionId}` | Executive | Update a position. | `campaigns.md` |
 | `DELETE` | `/api/campaigns/{campaignId}/positions/{positionId}` | Executive | Delete a position with no applications. | `campaigns.md` |
-| `GET` | `/api/campaigns/{campaignId}/slots` | Public | List the club's interview slots. | `campaigns.md` |
+| `GET` | `/api/campaigns/{campaignId}/slots` | Public · Executive | List the club's interview slots. | `campaigns.md` |
+| `POST` | `/api/campaigns/{campaignId}/slots` | Executive | Create interview slots for a draft campaign. | `campaigns.md` |
+| `DELETE` | `/api/campaigns/{campaignId}/slots/{slotId}` | Executive | Delete an unused interview slot. | `campaigns.md` |
 | `POST` | `/api/applications` | Applicant | Submit an application with a PDF CV. | `applications.md` |
 | `GET` | `/api/applications/me` | Applicant | List the caller's applications. | `applications.md` |
 | `GET` | `/api/applications/statistics` | Executive | Read application counts for a campaign. | `applications.md` |
@@ -164,8 +172,9 @@ then the other `docs/api/*.md` files in alphabetical order.
 | `POST` | `/api/campaigns/{campaignId}/schedule/entries` | Executive | Manually assign an application to a slot. | `schedules.md` |
 | `PUT` | `/api/campaigns/{campaignId}/schedule` | Executive | Save the draft schedule. | `schedules.md` |
 | `GET` | `/api/campaigns/{campaignId}/schedule/export` | Executive | Export the schedule as CSV. | `schedules.md` |
-| `PATCH` | `/api/schedule/{entryId}` | Executive | Edit one schedule entry. | `schedules.md` |
-| `POST` | `/api/schedule/{entryId}/resolve` | Executive | Resolve one conflicting entry. | `schedules.md` |
+| `PATCH` | `/api/campaigns/{campaignId}/schedule/entries/{entryId}` | Executive | Edit one schedule entry. | `schedules.md` |
+| `POST` | `/api/campaigns/{campaignId}/schedule/entries/{entryId}/resolve` | Executive | Resolve one conflicting entry. | `schedules.md` |
+| `POST` | `/api/campaigns/{campaignId}/schedule/entries/{entryId}/complete` | Assigned Interviewer · Executive | Mark an interview as completed. | `schedules.md` |
 | `GET` | `/api/interviews/{interviewId}/assessment` | Executive · Interviewer assigned | Read the assessment. | `assessments.md` |
 | `PUT` | `/api/interviews/{interviewId}/assessment` | Interviewer assigned | Create or replace the assessment. | `assessments.md` |
 | `GET` | `/api/notifications` | Applicant | List the caller's notifications. | `notifications.md` |
@@ -176,3 +185,4 @@ then the other `docs/api/*.md` files in alphabetical order.
 | Date | Change | Why |
 |---|---|---|
 | 2026-11-25 | Initial contract for PA#3: added the endpoint table, shared conventions, and examples for every endpoint. Added schedule, assessment, result and notification resources. | Complete C1–C11 and make the contract executable by `contract-check.mjs`. |
+| 2026-11-25 | Synced the endpoint table with the resource files: nested schedule entry routes, interview completion, slot create/delete and campaign completion; added `COMPLETED` to the interview states. | Remove stale routes and keep the summary table aligned with the authoritative resource contracts. |

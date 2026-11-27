@@ -1,0 +1,271 @@
+ClubFlow — ﬁnal project brief
+CSC13008 · 24KTPM1 · HK1 2026–27
+ClubFlow is the ﬁnal project for the whole class. Every team keeps its members and builds
+ClubFlow in its own repository. PA#2 to PA#6 are checked against this brief.
+The idea, the requirements and the screens below come from the PA#1 work of Lâm Gia Hưng,
+Trịnh Khánh Linh and Văn Viết Minh Phú, the winners of the Final project poll. They are the
+class's product owners (section 6), and each of them earns 0.5 bonus points on the ﬁnal
+project.
+Your own PA#1 proposal keeps its mark. Nobody redoes PA#1.
+1. The problem
+When recruiting members, a club may receive CVs through forms, review applications in
+spreadsheets, and coordinate interview times in group chats, leaving information about each
+application scattered across several tools. If a student applies for multiple positions and an
+interviewer serves multiple departments, organizers must also compare role requirements,
+availability, and rooms to avoid scheduling conﬂicts. Manual updates can cause applications to
+be missed, CVs to be assigned to the wrong interviewer, unconﬁrmed schedules to be shared,
+or interview feedback to be attached to the wrong application; students may also have
+diﬃculty knowing the status of their applications. ClubFlow addresses fragmented recruitment
+tracking and coordination by keeping application records, assignments, approved schedules,
+interviewer assessments, and ﬁnal outcomes in one process with clear ownership, helping
+clubs manage a campaign and applicants receive accurate information about their applications
+and results.
+2. Users
+User What they want to do Expected outcome / access limit
+Club executive
+or recruitment
+lead —
+Executive
+Create a campaign, departments
+and positions; conﬁgure
+interviewers, their availability
+and rooms; review CVs; adjust
+and approve schedules; record
+and publish application outcomes
+Track each application, prepare a
+workable interview schedule, and
+communicate a clear decision for
+each position
+Student
+applicant —
+Applicant
+Browse campaigns; submit a CV
+for one or more positions; choose
+available interview times; track
+CV screening, interview
+schedules, and ﬁnal results for
+each application
+Know whether an application was
+received, whether it passed CV
+screening, when and where to
+attend an interview, and whether it
+passed the ﬁnal selection. Can view
+only their own application data
+
+User What they want to do Expected outcome / access limit
+Assigned club
+interviewer —
+Interviewer
+Provide availability to the
+Executive; view assigned
+interview schedules and CVs;
+submit an assessment after each
+assigned interview
+Prepare for and attend assigned
+interviews, then send feedback on
+the right application. Can read CVs
+and submit assessments only for
+assigned applications
+Visitors can view public recruitment campaigns but must sign in to apply. The semester version
+serves one club, and accounts for all three roles are provided in advance. A department
+represents a functional unit and does not replace access roles. The Executive enters
+interviewer availability and selects from a list of existing rooms.
+3. Main ﬂow
+3.1. Prototype purpose and entry point
+The prototype shows a club Executive coordinating one recruitment campaign, from
+preparing campaign details through conﬁrming interview schedules. The user is signed in as an
+Executive, and all actions belong to the same club and campaign.
+The three screens are connected in this order:
+Create Recruitment Campaign → Application Review → Interview Scheduling.
+Applicants submit their CVs after the campaign is published; those submissions become the
+input to application review. In the prototype, sample applications represent submissions
+received during that period. Moving from Screen 1 to Screen 2 does not automatically create
+applicants or approve applications.
+3.2. How the prototype ﬂow works
+Step 1 — Prepare and publish a campaign in Create Recruitment Campaign. The
+Executive enters the campaign name, host club, description, opening and closing dates, and
+application instructions. They add departments and positions, quotas, job descriptions, and
+requirements. Save as Draft stores the conﬁguration for later editing; Preview Campaign shows
+what students will see. When the user selects Publish Campaign, the system checks required
+ﬁelds and dates before publishing. If the information is invalid, the user stays on the page and
+corrects it. After the campaign is published and receives applications, Applications opens
+Screen 2 for that same campaign.
+Step 2 — Review each application in Application Review. The list shows submitted
+applications, applicants, positions, submission times, and statuses. The Executive searches or
+ﬁlters the list, then selects Review to open an application drawer beside it. The Executive reads
+the CV and statement, adds an internal note, and selects Shortlist Candidate or Reject. The
+system updates only the application being reviewed. If one student applies for two positions,
+the decision for one position does not change the other application. Closing the drawer returns
+to the list and keeps the current ﬁlters.
+
+Step 3 — Send eligible applications to scheduling. Once there is at least one Shortlisted
+application, the Executive selects Continue to Interview Scheduling. Screen 3 receives the
+applications that passed CV screening for the same campaign, along with the conﬁgured
+interviewers, availability, and rooms. Only eligible applications enter scheduling. Shortlisted
+means an application passed CV screening; it does not mean the applicant has been accepted
+or already has a conﬁrmed interview.
+Step 4 — Generate and review a schedule in Interview Scheduling. The Executive
+selects a date, time window, and interview duration, then generates a draft. The system checks
+available time slots, an interviewer assigned to the relevant position, both parties’ availability,
+and an available room. The draft labels assignments as Proposed, applications that could not
+be scheduled as Unassigned, and assignments with a scheduling conﬂict as Conﬂict. The
+Executive can select Edit, Resolve, or + Assign Slot to adjust or assign an interview manually.
+The system rechecks the people, time, and room after each change. Save Changes stores the
+draft only.
+Step 5 — Approve and conﬁrm the schedule. After applications close, all applications have
+been reviewed, and the draft has been checked, the Executive selects Approve & Conﬁrm
+Schedule. The system displays a summary and allows conﬁrmation only when every Shortlisted
+application has a valid assignment and none remain Unassigned or in Conﬂict. After
+conﬁrmation, the campaign conﬁguration and schedule become read-only. Each applicant and
+interviewer can view their own conﬁrmed schedule, and Screen 3 shows the Conﬁrmed state.
+The prototype ends with schedule conﬁrmation; this action does not announce recruitment
+results.
+3.3. After the prototype ﬂow
+The three prototype screens cover campaign setup, CV screening, and schedule conﬁrmation.
+After the interviews, each assigned Interviewer submits one assessment for each completed
+interview through the assigned application record. The Executive records a Pass or Fail decision
+for each position. The application then displays the result to the applicant and sends an in-app
+notiﬁcation. The three prototype screens show the Executive's main ﬂow; the applicant
+submission/results view and assigned Interviewer assessment view support the remaining
+steps.
+3.4. End-to-end example
+Student A applies for two positions—Content and Communications—in the same campaign,
+creating applications A01 and A02. The Executive reviews each CV and shortlists both
+applications. When scheduling, each application must be assigned an interviewer qualiﬁed for
+its position, and the two interviews cannot overlap because they belong to the same student. If
+the Executive moves both interviews to 09:00–09:20, the system reports a conﬂict and blocks
+approval. After moving one interview to another available slot and checking the draft again, the
+Executive conﬁrms the schedule. Student A then sees two separate interviews at diﬀerent
+times. This example illustrates how the ﬂow works.
+
+3.5. Exception ﬂow
+Required information is missing or the campaign is closed: show a speciﬁc error, do
+not submit the application, and retain valid information already entered.
+The same student applies twice for the same position in one campaign: open the
+existing application; applications for other positions remain allowed.
+No qualiﬁed interviewer, shared available time, or room is available: leave the
+application Unassigned and show the reason so the Executive can adjust the draft; do not
+reject the applicant automatically.
+A schedule edit creates an overlap: identify the aﬀected interviews and block
+conﬁrmation of the conﬂicting assignment.
+Applications remain unscheduled: block conﬁrmation and identify the applications that
+need attention; the Executive adjusts availability, interviewer, or room and regenerates the
+draft.
+A conﬁrmed schedule is opened: show it as read-only and disable editing and
+regeneration.
+4. Scope
+This is the starting scope. The product owners may narrow or clarify it (section 6).
+The semester version serves one club, one active recruitment campaign at a time, and
+one interview date per campaign. Accounts for all three roles are provided in advance; the
+application supports sign-in and role-based access. Each application has one CV screening
+round, at most one interview with one interviewer, and one assessment for that interview.
+Conﬁrmed schedules remain available for viewing while the application proceeds to its ﬁnal
+decision.
+Building
+1. Create recruitment campaigns: Enter campaign details, deadlines, instructions, and a
+list of departments/positions with their respective quotas. Support saving drafts,
+previewing, and publishing campaigns.
+2. Accept applications: Provide a ﬁxed application form containing student information, a CV
+in PDF format (maximum 5 MB), a motivation statement (maximum 300 words), and
+availability based on time slots provided by the club. A student may apply for multiple
+positions, with a separate application required for each position. Duplicate applications for
+the same position are not allowed.
+3. Screen CVs: Search and ﬁlter applications, view CVs and application details in a drawer,
+add internal notes, and mark each application as Shortlisted or Rejected. Maintain
+application and applicant statistics, sorting, pagination, and basic CSV export on the
+application list.
+4. Prepare interview schedules: Allow the Executive to assign interviewers to one or more
+positions, enter their available time slots, and select available rooms. Each room can host
+only one interview session at a time. All interviews within a campaign must use the same
+slot duration: 15, 20, or 30 minutes.
+
+5. Propose and approve interview schedules: Schedule only Shortlisted applications by
+sequentially selecting the ﬁrst available combination of time slot, interviewer, and room.
+Display reasons for Unassigned applications, allow draft schedule adjustments, and support
+schedule table export. Check for conﬂicts involving applicants, interviewers, and rooms
+within the campaign. The schedule can only be conﬁrmed after applications have closed, all
+applications have been reviewed, all required interviews have been scheduled, and no
+conﬂicts remain. Once conﬁrmed, the campaign conﬁguration, applications, and schedule
+become read-only.
+6. Provide role-based access: Applicants can view their CV screening status and personal
+interview schedules. Interviewers can only access their assigned schedules and applicants'
+CVs. Executives can view and manage all applications within a campaign. CV screening
+notes must not be visible to Applicants or Interviewers.
+7. Evaluate candidates and send notiﬁcations: Allow Interviewers to evaluate candidates
+and notify applicants of their ﬁnal results (pass/fail).
+Not Building
+1. Support for multiple clubs or simultaneous recruitment campaigns; self-service account
+registration or recovery; university account veriﬁcation; and multi-level administrative
+access control.
+2. Dynamic room creation, room capacity management, university room booking, checking
+schedules outside the active campaign, or large-scale schedule optimization.
+3. University single sign-on (SSO).
+4. AI-powered CV screening or ranking, advanced analytics dashboards, audit trails, or
+customizable application forms.
+5. Post-recruitment management of events, members, and internal task assignments; chat,
+video calls, payments, or a dedicated mobile application.
+5. Screens
+These three screens show the features PA#2 needs. They are a starting point, not a picture to
+copy: your team chooses the screens, the layout, the content, the colours and the ﬁle names
+(index.html  is the ﬁrst page), and you may build them as static pages or with React. What
+counts is that your pages deliver these features and that none of the problems below appears
+in them.
+Problems your pages must not have
+The rubric calls this the Fix these list. Where an item names a screen or a sample value, it
+describes the authors' screens. Your own pages and content only have to avoid the same
+problem.
+Dates do not ﬁt together. Applications close on Oct 30, 2026 on Screen 1 and on Nov 5,
+2026 on Screen 2, and interviews on Screen 3 are on Oct 27, 2026, before either date. Use
+one timeline on all three pages.
+
+Screen 2 has the wrong page title. Its top bar still says "Create Recruitment Campaign ·
+DRAFT MODE".
+The drawer on Screen 2 covers most of the list. The application details and the list
+must both stay readable at every width.
+The counts on Screen 3 do not add up. The footer says 6 Proposed, 1 Conﬂict and 2
+Unassigned, which makes 9, but the table has 8 rows and only 5 of them are Proposed.
+The conﬂict on Screen 3 is not a conﬂict. The banner reports an overlap at 09:20, but
+no other row overlaps the highlighted one.
+The sample people overlap. Trần Gia Huy and Hoàng Thảo Vy appear as both applicants
+and interviewers on Screen 3.
+"Veriﬁed" contradicts the scope. "Veriﬁed Student", "100% veriﬁed", "Veriﬁed
+Attachments" and "veriﬁed student credentials" all suggest university account veriﬁcation,
+which is under Not Building.
+The footer is template text. Remove "© 2025 ClubFlow", Privacy Policy, Terms of Service
+and Support Center.
+Screen 1 — Create Recruitment Campaign
+This screen allows the Club Executive to conﬁgure a recruitment campaign by entering its basic
+information, application period, recruitment departments, available positions, vacancy quotas,
+and position requirements. The executive can save the campaign as a draft, preview it, or
+publish it. After publishing the campaign, the executive proceeds to the application review
+stage to manage incoming applications.
+
+Screen 2 — Application Review
+This screen allows the Club Executive to review applications submitted to the recruitment
+campaign. The executive can view application statistics, inspect applicant proﬁles and
+statements of purpose, and review attached CVs. For each application, the executive can
+
+shortlist or reject the applicant. Shortlisted applicants are then passed to the interview
+scheduling stage.
+Screen 3 — Interview Scheduling
+This screen allows the Club Executive to generate and review a proposed interview schedule
+for shortlisted applicants. The executive can inspect interview dates, time slots, assigned
+interviewers, rooms, and scheduling conﬂicts. The executive can edit assignments, resolve
+conﬂicts, and export the timetable. Once all necessary assignments and conﬂicts have been
+reviewed, the executive can approve and conﬁrm the schedule, completing the interview
+scheduling stage.
+
+6. Product owners
+The authoring team takes the lead on the product. They decide how ClubFlow behaves and
+what is in scope wherever this brief is silent or leaves room, for example which parts of the
+scope can wait, or what an applicant sees after a rejection.
+Ask under the post ClubFlow — questions for the product owners, which they open in the
+course Facebook group, starting with #WAD24KTPM1. Do not ask in private messages: one
+team's answer is everyone's answer.
+
+Answers come within two working days, under that post. A scope decision posted there
+applies to every team. Cite it in your repository when you rely on it.
+What the product owners do not decide: marks, deadlines, rubrics, and what PA#2
+requires: the features of its three screens and the Fix these list. Those belong to the
+lecturer.
+The product owners build ClubFlow like every other team and are marked the same way.
