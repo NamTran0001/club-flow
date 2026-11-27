@@ -409,6 +409,226 @@ code {
   margin: 0;
 }
 
+.campaign-list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.campaign-list-toolbar p {
+  margin: 0;
+}
+
+.campaign-list,
+.position-list {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.campaign-list > li,
+.position-list > li {
+  min-width: 0;
+}
+
+.campaign-card,
+.position-card,
+.campaign-detail-panel {
+  min-width: 0;
+  padding: var(--space-5);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.campaign-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.campaign-card > p {
+  overflow-wrap: anywhere;
+}
+
+.campaign-card-heading,
+.position-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  margin-bottom: var(--space-3);
+}
+
+.campaign-card-heading h2,
+.position-card-heading h3 {
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
+}
+
+.campaign-card-heading .eyebrow,
+.position-card-heading .eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.campaign-status {
+  flex: 0 0 auto;
+  min-height: 36px;
+  white-space: normal;
+}
+
+.campaign-status-open {
+  background: #ecfdf5;
+  color: #14532d;
+}
+
+.campaign-status-confirmed {
+  background: #eef2ff;
+  color: var(--primary-dark);
+}
+
+.campaign-dates {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+}
+
+.campaign-dates > div {
+  min-width: 0;
+}
+
+.campaign-dates dt {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.campaign-dates dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.campaign-position-count {
+  margin-bottom: var(--space-4);
+}
+
+.campaign-card .btn {
+  margin-top: auto;
+}
+
+.campaign-empty {
+  max-width: 760px;
+}
+
+.campaign-empty p:last-child {
+  margin-bottom: 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.breadcrumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.breadcrumbs [aria-current="page"] {
+  overflow-wrap: anywhere;
+}
+
+.campaign-detail-heading {
+  max-width: 80ch;
+  margin-bottom: var(--space-6);
+}
+
+.campaign-detail-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.campaign-detail-title-row h1 {
+  flex: 1 1 18rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.campaign-detail-description {
+  color: var(--muted);
+}
+
+.campaign-detail-panel {
+  max-width: 860px;
+  margin-bottom: var(--space-8);
+}
+
+.campaign-overview {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.campaign-instructions {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.campaign-instructions h3 {
+  margin-bottom: var(--space-2);
+  font-size: 1.1rem;
+}
+
+.campaign-instructions p {
+  margin-bottom: 0;
+}
+
+.campaign-positions-section {
+  margin-top: var(--space-8);
+}
+
+.campaign-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.campaign-section-heading h2 {
+  margin-bottom: 0;
+}
+
+.position-card {
+  height: 100%;
+}
+
+.position-card p {
+  overflow-wrap: anywhere;
+}
+
+.position-card .position-unavailable {
+  margin-top: var(--space-4);
+  margin-bottom: 0;
+}
+
+.campaign-back-link {
+  margin-top: var(--space-6);
+}
+
 .application-list {
   display: grid;
   gap: var(--space-4);
@@ -639,10 +859,26 @@ code {
   .application-card {
     padding: var(--space-6);
   }
+
+  .campaign-list,
+  .position-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .campaign-card,
+  .position-card,
+  .campaign-detail-panel {
+    padding: var(--space-6);
+  }
 }
 
 @media (min-width: 1024px) {
   .auth-layout {
     gap: var(--space-8);
+  }
+
+  .campaign-list,
+  .position-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

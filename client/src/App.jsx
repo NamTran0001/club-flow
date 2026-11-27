@@ -1,18 +1,20 @@
 import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from './auth/ProtectedRoute.jsx';
 import { ROLES } from './auth/roles.js';
-import { HomePage } from './pages/HomePage.jsx';
 import { SignInPage } from './pages/SignInPage.jsx';
 import { SignOutPage } from './pages/SignOutPage.jsx';
 import { RoleHomePage } from './pages/RoleHomePage.jsx';
 import { NotFoundPage } from './pages/SessionPages.jsx';
 import { ApplicationSubmissionPage } from './pages/ApplicationSubmissionPage.jsx';
 import { MyApplicationsPage } from './pages/MyApplicationsPage.jsx';
+import { PublicCampaignsPage } from './pages/PublicCampaignsPage.jsx';
+import { CampaignDetailsPage } from './pages/CampaignDetailsPage.jsx';
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<PublicCampaignsPage />} />
+      <Route path="/campaigns/:campaignId" element={<CampaignDetailsPage />} />
       <Route path="/sign-in" element={<SignInPage />} />
       <Route path="/sign-out" element={<SignOutPage />} />
 
