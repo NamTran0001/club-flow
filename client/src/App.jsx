@@ -6,6 +6,7 @@ import { SignInPage } from './pages/SignInPage.jsx';
 import { SignOutPage } from './pages/SignOutPage.jsx';
 import { RoleHomePage } from './pages/RoleHomePage.jsx';
 import { NotFoundPage } from './pages/SessionPages.jsx';
+import { ApplicationSubmissionPage } from './pages/ApplicationSubmissionPage.jsx';
 
 export default function App() {
   return (
@@ -15,6 +16,10 @@ export default function App() {
       <Route path="/sign-out" element={<SignOutPage />} />
 
       <Route element={<ProtectedRoute roles={[ROLES.APPLICANT]} />}>
+        <Route
+          path="/apply/:campaignId/:positionId"
+          element={<ApplicationSubmissionPage />}
+        />
         <Route
           path="/my-applications"
           element={
