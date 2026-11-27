@@ -396,6 +396,113 @@ code {
   max-width: 860px;
 }
 
+.application-list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.application-list-toolbar p {
+  margin: 0;
+}
+
+.application-list {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.application-list > li {
+  min-width: 0;
+}
+
+.application-card {
+  padding: var(--space-5);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.application-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.application-card-heading h2 {
+  margin-bottom: 0;
+  overflow-wrap: anywhere;
+}
+
+.application-card-heading .eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.application-details {
+  margin-top: var(--space-4);
+}
+
+.application-subsection {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.application-subsection h3 {
+  margin-bottom: var(--space-3);
+  font-size: 1.1rem;
+}
+
+.application-subsection p:last-child {
+  margin-bottom: 0;
+}
+
+.application-note {
+  margin-top: var(--space-4);
+  margin-bottom: 0;
+}
+
+.empty-applications {
+  max-width: 760px;
+}
+
+.empty-applications p:last-of-type {
+  margin-bottom: var(--space-4);
+}
+
+.result-pass {
+  color: #166534;
+}
+
+.result-fail {
+  color: var(--danger-ink);
+}
+
+.text-button {
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border: 0;
+  background: transparent;
+  color: var(--primary-dark);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.text-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .campaign-summary {
   margin-bottom: var(--space-6);
   padding-bottom: var(--space-4);
@@ -527,6 +634,10 @@ code {
 
   .form-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .application-card {
+    padding: var(--space-6);
   }
 }
 

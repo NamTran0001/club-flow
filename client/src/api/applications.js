@@ -15,12 +15,16 @@ export function getCampaignSlots(campaignId, signal) {
  * Applicant fills the form. A failure here must not block the form; the server
  * still rejects a duplicate submission with 409 APPLICATION_ALREADY_EXISTS.
  */
-export function getMyApplications(signal) {
-  return apiRequest('/applications/me?limit=100', { signal });
+export function getMyApplications(signal, page = 1) {
+  return apiRequest(`/applications/me?page=${page}&limit=100`, { signal });
 }
 
 export function getApplication(applicationId, signal) {
   return apiRequest(`/applications/${encodeId(applicationId)}`, { signal });
+}
+
+export function getApplicationResult(applicationId, signal) {
+  return apiRequest(`/applications/${encodeId(applicationId)}/result`, { signal });
 }
 
 export function submitApplication(formData) {

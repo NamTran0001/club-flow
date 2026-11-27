@@ -7,6 +7,7 @@ import { SignOutPage } from './pages/SignOutPage.jsx';
 import { RoleHomePage } from './pages/RoleHomePage.jsx';
 import { NotFoundPage } from './pages/SessionPages.jsx';
 import { ApplicationSubmissionPage } from './pages/ApplicationSubmissionPage.jsx';
+import { MyApplicationsPage } from './pages/MyApplicationsPage.jsx';
 
 export default function App() {
   return (
@@ -22,13 +23,7 @@ export default function App() {
         />
         <Route
           path="/my-applications"
-          element={
-            <RoleHomePage
-              step="C6 · My applications"
-              title="Trang chính của ứng viên"
-              description="Theo dõi hồ sơ đã nộp, trạng thái duyệt CV, lịch phỏng vấn và kết quả của từng vị trí."
-            />
-          }
+          element={<MyApplicationsPage />}
         />
       </Route>
 
